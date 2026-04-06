@@ -17,6 +17,7 @@ echo Checking javac availability... >> "%LOG_FILE%"
 where javac >nul 2>&1
 if errorlevel 1 (
   echo ERROR: javac was not found in PATH. >> "%LOG_FILE%"
+  echo [HardHorror] RESULT: FAILED >> "%LOG_FILE%"
   echo Build FAILED. See log: %LOG_FILE%
   type "%LOG_FILE%"
   pause
@@ -26,6 +27,7 @@ if errorlevel 1 (
 for /r src\main\java %%f in (*.java) do set /a SRC_COUNT+=1
 if %SRC_COUNT% LEQ 0 (
   echo ERROR: no Java sources were found. >> "%LOG_FILE%"
+  echo [HardHorror] RESULT: FAILED >> "%LOG_FILE%"
   echo Build FAILED. See log: %LOG_FILE%
   type "%LOG_FILE%"
   pause
@@ -39,6 +41,7 @@ echo [HardHorror] Compilation started >> "%LOG_FILE%"
 javac -d out src\main\java\com\hardhorror\*.java >> "%LOG_FILE%" 2>&1
 if errorlevel 1 (
   echo [HardHorror] Compilation failed >> "%LOG_FILE%"
+  echo [HardHorror] RESULT: FAILED >> "%LOG_FILE%"
   echo Build FAILED. See log: %LOG_FILE%
   type "%LOG_FILE%"
   pause
@@ -49,6 +52,7 @@ echo [HardHorror] Compilation finished successfully >> "%LOG_FILE%"
 for /r out %%f in (*.class) do set /a CLASS_COUNT+=1
 if %CLASS_COUNT% LEQ 0 (
   echo ERROR: javac returned success but produced no .class files. >> "%LOG_FILE%"
+  echo [HardHorror] RESULT: FAILED >> "%LOG_FILE%"
   echo Build FAILED (no class output). See log: %LOG_FILE%
   type "%LOG_FILE%"
   pause
@@ -56,7 +60,9 @@ if %CLASS_COUNT% LEQ 0 (
 )
 echo [HardHorror] Class files generated: %CLASS_COUNT% >> "%LOG_FILE%"
 
+echo [HardHorror] RESULT: SUCCESS >> "%LOG_FILE%"
 echo Build OK. Compiled %SRC_COUNT% files, generated %CLASS_COUNT% class files.
+echo Exit code: 0
 echo Log saved: %LOG_FILE%
 echo --- Last 20 log lines ---
 powershell -NoProfile -Command "Get-Content -Path '%LOG_FILE%' -Tail 20"
