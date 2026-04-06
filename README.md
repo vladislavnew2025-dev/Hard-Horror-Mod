@@ -18,10 +18,12 @@ This repository currently contains Java gameplay scaffolding (without full Forge
 Use `build_quick.bat`.
 - Compiles all Java files into `out/`.
 - Packs compiled classes into `dist/hard-horror-test-YYYYMMDD_HHMMSS.jar`.
+- Uses broad-compatible jar command syntax (`jar cf ...`) and verifies the jar file exists.
 - Writes persistent build logs into `logs/build_YYYYMMDD_HHMMSS.log` (locale-safe timestamp via PowerShell).
 - Keeps console open with `pause`, prints explicit source/class output counts, and prints explicit `RESULT: SUCCESS/FAILED` diagnostics.
 
-If your terminal still closes instantly, use `build_quick_keep_open.bat` (it runs the build inside `cmd /k`).
+If your terminal still closes instantly, use `build_quick_keep_open.bat`.
+It runs `build_quick.bat` through `cmd /k` so the terminal window stays open after execution.
 
 ## Next step
 Generate a Forge 1.20.1 MDK project structure and connect these classes to Forge events and rendering.

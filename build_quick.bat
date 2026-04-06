@@ -64,6 +64,7 @@ if errorlevel 1 (
 echo [HardHorror] Compilation finished successfully >> "%LOG_FILE%"
 
 for /r out %%f in (*.class) do set /a CLASS_COUNT+=1
+echo [HardHorror] Class files counted: %CLASS_COUNT% >> "%LOG_FILE%"
 if %CLASS_COUNT% LEQ 0 (
   echo ERROR: javac returned success but produced no .class files. >> "%LOG_FILE%"
   echo [HardHorror] RESULT: FAILED >> "%LOG_FILE%"
@@ -72,14 +73,22 @@ if %CLASS_COUNT% LEQ 0 (
   set "BUILD_FAILED=1"
   goto :END
 )
-echo [HardHorror] Class files generated: %CLASS_COUNT% >> "%LOG_FILE%"
 
 echo [HardHorror] Packaging jar to %JAR_FILE% >> "%LOG_FILE%"
-jar --create --file "%JAR_FILE%" -C out . >> "%LOG_FILE%" 2>&1
+if exist "%JAR_FILE%" del "%JAR_FILE%"
+jar cf "%JAR_FILE%" -C out . >> "%LOG_FILE%" 2>&1
 if errorlevel 1 (
   echo ERROR: jar packaging failed. >> "%LOG_FILE%"
   echo [HardHorror] RESULT: FAILED >> "%LOG_FILE%"
   echo Build FAILED (jar packaging). See log: %LOG_FILE%
+  type "%LOG_FILE%"
+  set "BUILD_FAILED=1"
+  goto :END
+)
+if not exist "%JAR_FILE%" (
+  echo ERROR: jar command finished but output file is missing. >> "%LOG_FILE%"
+  echo [HardHorror] RESULT: FAILED >> "%LOG_FILE%"
+  echo Build FAILED (missing jar output). See log: %LOG_FILE%
   type "%LOG_FILE%"
   set "BUILD_FAILED=1"
   goto :END
