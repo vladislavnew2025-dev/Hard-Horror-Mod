@@ -25,7 +25,9 @@ if errorlevel 1 (
 
 if exist "%SRC_LIST%" del "%SRC_LIST%"
 for /r src\main\java %%f in (*.java) do (
-  echo "%%f">>"%SRC_LIST%"
+  set "src_path=%%f"
+  set "src_path=!src_path:\=/!"
+  echo "!src_path!">>"%SRC_LIST%"
   set /a SRC_COUNT+=1
 )
 
