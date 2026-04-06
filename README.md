@@ -3,7 +3,7 @@
 Scaffold for a psychological horror Minecraft mod focused on anxiety, adaptive encounters, and rare high-impact screamers.
 
 ## Current repository state
-This repository currently contains Java gameplay scaffolding (without full Forge MDK wiring yet) plus a quick Windows build script.
+This repository currently contains Java gameplay scaffolding (without full Forge MDK wiring yet) plus quick Windows build scripts.
 
 ## Implemented systems
 - `FearSystem`: 0..100 fear progression with level bands.
@@ -17,8 +17,11 @@ This repository currently contains Java gameplay scaffolding (without full Forge
 ## Quick build on Windows
 Use `build_quick.bat`.
 - Compiles all Java files into `out/`.
+- Packs compiled classes into `dist/hard-horror-test-YYYYMMDD_HHMMSS.jar`.
 - Writes persistent build logs into `logs/build_YYYYMMDD_HHMMSS.log` (locale-safe timestamp via PowerShell).
-- Keeps console open with `pause`, prints explicit source/class output counts, and prints explicit `RESULT: SUCCESS/FAILED` diagnostics for easier troubleshooting on Windows.
+- Keeps console open with `pause`, prints explicit source/class output counts, and prints explicit `RESULT: SUCCESS/FAILED` diagnostics.
+
+If your terminal still closes instantly, use `build_quick_keep_open.bat` (it runs the build inside `cmd /k`).
 
 ## Next step
 Generate a Forge 1.20.1 MDK project structure and connect these classes to Forge events and rendering.
