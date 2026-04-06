@@ -9,6 +9,7 @@ if "%ts%"=="" set "ts=fallback_timestamp"
 set "LOG_FILE=logs\build_%ts%.log"
 set "SRC_LIST=logs\sources_%ts%.txt"
 set /a SRC_COUNT=0
+set /a CLASS_COUNT=0
 
 echo [HardHorror] Quick build started > "%LOG_FILE%"
 echo [HardHorror] Timestamp: %DATE% %TIME% >> "%LOG_FILE%"
@@ -26,7 +27,7 @@ if errorlevel 1 (
 if exist "%SRC_LIST%" del "%SRC_LIST%"
 for /r src\main\java %%f in (*.java) do (
   set "src_path=%%f"
-  set "src_path=!src_path:\=/!"
+  set "src_path=!src_path:\\=/!"
   echo "!src_path!">>"%SRC_LIST%"
   set /a SRC_COUNT+=1
 )
@@ -53,7 +54,17 @@ if errorlevel 1 (
 )
 echo [HardHorror] Compilation finished successfully >> "%LOG_FILE%"
 
-echo Build OK. Compiled %SRC_COUNT% files.
+for /r out %%f in (*.class) do set /a CLASS_COUNT+=1
+if %CLASS_COUNT% LEQ 0 (
+  echo ERROR: javac returned success but produced no .class files. >> "%LOG_FILE%"
+  echo Build FAILED (no class output). See log: %LOG_FILE%
+  type "%LOG_FILE%"
+  pause
+  exit /b 1
+)
+echo [HardHorror] Class files generated: %CLASS_COUNT% >> "%LOG_FILE%"
+
+echo Build OK. Compiled %SRC_COUNT% files, generated %CLASS_COUNT% class files.
 echo Log saved: %LOG_FILE%
 echo --- Last 20 log lines ---
 powershell -NoProfile -Command "Get-Content -Path '%LOG_FILE%' -Tail 20"
