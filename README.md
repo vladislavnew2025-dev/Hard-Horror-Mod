@@ -18,7 +18,7 @@ This repository currently contains Java gameplay scaffolding (without full Forge
 Use `build_quick.bat`.
 - Compiles all Java files into `out/`.
 - Writes persistent build logs into `logs/build_YYYYMMDD_HHMMSS.log` (locale-safe timestamp via PowerShell).
-- Keeps console open with `pause` so you can review output.
+- Keeps console open with `pause` so you can review output, and prints explicit success with number of compiled files.
 
 ## Next step
 Generate a Forge 1.20.1 MDK project structure and connect these classes to Forge events and rendering.
