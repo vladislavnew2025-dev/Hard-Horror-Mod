@@ -17,7 +17,7 @@ This repository currently contains Java gameplay scaffolding (without full Forge
 ## Quick build on Windows
 Use `build_quick.bat`.
 - Compiles all Java files into `out/`.
-- Writes persistent build logs into `logs/build_YYYYMMDD_HHMMSS.log`.
+- Writes persistent build logs into `logs/build_YYYYMMDD_HHMMSS.log` (locale-safe timestamp via PowerShell).
 - Keeps console open with `pause` so you can review output.
 
 ## Next step
