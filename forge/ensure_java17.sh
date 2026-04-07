@@ -31,14 +31,14 @@ fi
 URL="https://api.adoptium.net/v3/binary/latest/17/ga/linux/x64/jdk/hotspot/normal/eclipse"
 ARCHIVE="$JDK_DIR/temurin17.tar.gz"
 
-echo "[PsychologicalHorror] Java 17 not found, downloading Temurin JDK 17..."
+echo "[PsychologicalHorror] Java 17 not found, downloading Temurin JDK 17..." >&2
 curl -fL "$URL" -o "$ARCHIVE"
 
 tar -xzf "$ARCHIVE" -C "$JDK_DIR"
 EXTRACTED=$(find "$JDK_DIR" -maxdepth 1 -type d -name 'jdk-*' | head -n 1)
 
 if [[ -z "$EXTRACTED" || ! -x "$EXTRACTED/bin/java" ]]; then
-  echo "[PsychologicalHorror] ERROR: failed to prepare local JDK 17"
+  echo "[PsychologicalHorror] ERROR: failed to prepare local JDK 17" >&2
   exit 1
 fi
 
