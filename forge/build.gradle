@@ -76,6 +76,8 @@ tasks.named('processResources', ProcessResources).configure {
 }
 
 tasks.named('jar', Jar).configure {
+    finalizedBy 'reobfJar'
+
     manifest {
         attributes([
                 'Specification-Title'     : mod_id,
@@ -87,4 +89,9 @@ tasks.named('jar', Jar).configure {
                 'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
+}
+
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
 }

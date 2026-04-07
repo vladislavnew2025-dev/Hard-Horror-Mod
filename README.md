@@ -29,6 +29,13 @@ cd forge
 ```
 If `gradlew` is missing, `run_client.sh` tries `gradle wrapper` automatically.
 
+## Build installable Forge mod jar (for mods folder)
+```bash
+cd forge
+./build_mod.sh
+```
+After build, take jar from `forge/build/libs/` and copy it into Minecraft `mods/` for Forge 1.20.1.
+
 ## Quick build on Linux
 Use:
 ```bash
