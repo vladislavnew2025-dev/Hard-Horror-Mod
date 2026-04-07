@@ -1,5 +1,6 @@
 @echo off
 setlocal EnableExtensions EnableDelayedExpansion
+cd /d "%~dp0"
 
 if not exist logs mkdir logs
 if not exist out mkdir out
@@ -14,6 +15,7 @@ set /a CLASS_COUNT=0
 set "BUILD_FAILED=0"
 
 echo [HardHorror] Quick build started > "%LOG_FILE%"
+echo [HardHorror] Working directory: %CD% >> "%LOG_FILE%"
 echo [HardHorror] Timestamp: %DATE% %TIME% >> "%LOG_FILE%"
 
 echo Checking javac availability... >> "%LOG_FILE%"
@@ -30,12 +32,7 @@ if errorlevel 1 (
 echo Checking jar availability... >> "%LOG_FILE%"
 where jar >nul 2>&1
 if errorlevel 1 (
-  echo ERROR: jar tool was not found in PATH. >> "%LOG_FILE%"
-  echo [HardHorror] RESULT: FAILED >> "%LOG_FILE%"
-  echo Build FAILED. See log: %LOG_FILE%
-  type "%LOG_FILE%"
-  set "BUILD_FAILED=1"
-  goto :END
+  echo WARNING: jar tool was not found in PATH, will use PowerShell zip fallback. >> "%LOG_FILE%"
 )
 
 for /r src\main\java %%f in (*.java) do set /a SRC_COUNT+=1
@@ -76,17 +73,29 @@ if %CLASS_COUNT% LEQ 0 (
 
 echo [HardHorror] Packaging jar to %JAR_FILE% >> "%LOG_FILE%"
 if exist "%JAR_FILE%" del "%JAR_FILE%"
+
+where jar >nul 2>&1
+if errorlevel 1 goto :ZIP_FALLBACK
+
 jar cf "%JAR_FILE%" -C out . >> "%LOG_FILE%" 2>&1
+if errorlevel 1 goto :ZIP_FALLBACK
+goto :JAR_DONE
+
+:ZIP_FALLBACK
+echo [HardHorror] jar tool unavailable/failed, using Compress-Archive fallback >> "%LOG_FILE%"
+powershell -NoProfile -Command "Compress-Archive -Path 'out\*' -DestinationPath '%JAR_FILE%' -Force" >> "%LOG_FILE%" 2>&1
 if errorlevel 1 (
-  echo ERROR: jar packaging failed. >> "%LOG_FILE%"
+  echo ERROR: jar packaging failed (jar + fallback). >> "%LOG_FILE%"
   echo [HardHorror] RESULT: FAILED >> "%LOG_FILE%"
   echo Build FAILED (jar packaging). See log: %LOG_FILE%
   type "%LOG_FILE%"
   set "BUILD_FAILED=1"
   goto :END
 )
+
+:JAR_DONE
 if not exist "%JAR_FILE%" (
-  echo ERROR: jar command finished but output file is missing. >> "%LOG_FILE%"
+  echo ERROR: packaging finished but output file is missing. >> "%LOG_FILE%"
   echo [HardHorror] RESULT: FAILED >> "%LOG_FILE%"
   echo Build FAILED (missing jar output). See log: %LOG_FILE%
   type "%LOG_FILE%"
