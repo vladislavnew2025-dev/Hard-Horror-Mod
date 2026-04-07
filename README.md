@@ -51,8 +51,10 @@ cd forge
   - `/psychhorror fear_add <1..100>`
   - `/psychhorror screamer_test`
   - `/psychhorror watcher_test`
+  - `/psychhorror anomaly_test`
 
 
 ## Текущее поведение в игре
 - Fear HUD показывается в actionbar (строка над хотбаром) раз в ~1 секунду.
 - Сообщение `перезапись...` при CRITICAL ограничено кулдауном (не бесконечный спам).
+- При HIGH/CRITICAL запускаются аномалии мира (странные звуки блоков + короткий эффект DARKNESS).

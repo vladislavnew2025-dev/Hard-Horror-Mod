@@ -30,3 +30,5 @@
 - `/psychhorror fear_add <1..100>`
 - `/psychhorror screamer_test`
 - `/psychhorror watcher_test`
+
+- `/psychhorror anomaly_test`

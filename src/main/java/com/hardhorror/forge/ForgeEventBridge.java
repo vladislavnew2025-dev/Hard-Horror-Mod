@@ -7,10 +7,16 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.UUID;
 import net.minecraft.commands.Commands;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -23,10 +29,13 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 public final class ForgeEventBridge {
     private static final long HUD_UPDATE_TICKS = 20L;
     private static final long REWRITE_MESSAGE_COOLDOWN_TICKS = 200L;
+    private static final long ANOMALY_COOLDOWN_TICKS = 120L;
 
     private final HardHorrorMod core;
     private final Map<UUID, Long> lastHudTick = new HashMap<>();
     private final Map<UUID, Long> lastRewriteTick = new HashMap<>();
+    private final Map<UUID, Long> lastAnomalyTick = new HashMap<>();
+    private final Random random = new Random();
 
     public ForgeEventBridge(HardHorrorMod core) {
         this.core = core;
@@ -75,6 +84,14 @@ public final class ForgeEventBridge {
                                     ctx.getSource().sendSuccess(() -> Component.literal("Watcher forced at distance " + watcher.distanceBlocks()), false);
                                     return Command.SINGLE_SUCCESS;
                                 }))
+                        .then(Commands.literal("anomaly_test")
+                                .executes(ctx -> {
+                                    if (ctx.getSource().getEntity() instanceof ServerPlayer player) {
+                                        triggerAnomaly(player, true);
+                                        ctx.getSource().sendSuccess(() -> Component.literal("Anomaly test triggered."), false);
+                                    }
+                                    return Command.SINGLE_SUCCESS;
+                                }))
         );
     }
 
@@ -111,6 +128,34 @@ public final class ForgeEventBridge {
             lastRewriteTick.put(uuid, gameTime);
             player.sendSystemMessage(Component.literal("перезапись..."));
         }
+
+        if (level == FearSystem.FearLevel.HIGH || level == FearSystem.FearLevel.CRITICAL) {
+            if (gameTime - lastAnomalyTick.getOrDefault(uuid, Long.MIN_VALUE) >= ANOMALY_COOLDOWN_TICKS) {
+                double chance = (level == FearSystem.FearLevel.CRITICAL) ? 0.40d : 0.18d;
+                if (random.nextDouble() <= chance) {
+                    triggerAnomaly(player, false);
+                    lastAnomalyTick.put(uuid, gameTime);
+                }
+            }
+        }
+    }
+
+    private void triggerAnomaly(ServerPlayer player, boolean forced) {
+        BlockPos pos = player.blockPosition().offset(random.nextInt(7) - 3, 0, random.nextInt(7) - 3);
+
+        // "Strange block behavior": random fake block-like sounds around player.
+        var sound = switch (random.nextInt(4)) {
+            case 0 -> SoundEvents.AMETHYST_BLOCK_CHIME;
+            case 1 -> SoundEvents.STONE_BREAK;
+            case 2 -> SoundEvents.CHAIN_BREAK;
+            default -> SoundEvents.SCULK_SENSOR_CLICKING;
+        };
+        player.level().playSound(null, pos, sound, SoundSource.AMBIENT, 1.1f, 0.8f + random.nextFloat() * 0.4f);
+
+        // Brief visual pressure effect.
+        int duration = forced ? 80 : 40;
+        player.addEffect(new MobEffectInstance(MobEffects.DARKNESS, duration, 0, false, false, true));
+        player.displayClientMessage(Component.literal("Мир искажается..."), true);
     }
 
     @SubscribeEvent
