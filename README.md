@@ -27,6 +27,8 @@ forge/build/libs/
 ```
 и копируй в папку `mods` (Forge 1.20.1).
 
+Если раньше была ошибка `Plugin net.minecraftforge.gradle not found`, теперь репозитории для плагина заданы в `forge/settings.gradle`.
+
 ## Как запустить клиент Forge (Linux)
 ```bash
 cd forge
