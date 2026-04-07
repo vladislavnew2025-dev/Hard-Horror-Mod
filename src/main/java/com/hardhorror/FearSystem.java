@@ -13,6 +13,10 @@ public final class FearSystem {
         return fear;
     }
 
+    public void setFear(int value) {
+        fear = Math.max(MIN, Math.min(MAX, value));
+    }
+
     public void addFear(int amount) {
         fear = Math.min(MAX, fear + Math.max(0, amount));
     }

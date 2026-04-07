@@ -41,3 +41,13 @@ cd forge
 ./build_quick.sh
 ```
 Создаёт логи в `logs/` и тестовый jar в `dist/`.
+
+
+## Roadmap и тест-команды
+- Подробный план: `src/main/resources/ROADMAP_RU.md`
+- Forge тест-команды:
+  - `/psychhorror fear_get`
+  - `/psychhorror fear_set <0..100>`
+  - `/psychhorror fear_add <1..100>`
+  - `/psychhorror screamer_test`
+  - `/psychhorror watcher_test`

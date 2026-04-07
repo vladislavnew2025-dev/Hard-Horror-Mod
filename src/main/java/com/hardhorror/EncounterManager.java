@@ -27,6 +27,11 @@ public final class EncounterManager {
         }
     }
 
+    public void forceSpawnWatcher() {
+        watcher = WatcherEntity.spawnForTest(random);
+        System.out.println("[PsychologicalHorror] Watcher force-spawned at distance " + watcher.distanceBlocks());
+    }
+
     public WatcherEntity watcher() {
         return watcher;
     }
