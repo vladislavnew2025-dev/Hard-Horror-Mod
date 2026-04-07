@@ -6,7 +6,7 @@ license="All Rights Reserved"
 modId="${mod_id}"
 version="${mod_version}"
 displayName="${mod_name}"
-authors="HardHorror Team"
+authors="PsychologicalHorror Team"
 description='''
 Psychological horror mod prototype.
 '''

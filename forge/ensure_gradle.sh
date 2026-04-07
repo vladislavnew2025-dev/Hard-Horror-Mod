@@ -7,7 +7,7 @@ if [[ -x ./gradlew ]]; then
 fi
 
 if command -v gradle >/dev/null 2>&1; then
-  echo "[HardHorror] gradlew not found, generating wrapper via system gradle..."
+  echo "[PsychologicalHorror] gradlew not found, generating wrapper via system gradle..."
   gradle wrapper
   exit 0
 fi
@@ -22,10 +22,10 @@ mkdir -p "${LOCAL_DIR}"
 
 if [[ ! -x "${GRADLE_BIN}" ]]; then
   URL="https://services.gradle.org/distributions/${DIST_ZIP}"
-  echo "[HardHorror] system gradle not found, downloading ${URL} ..."
+  echo "[PsychologicalHorror] system gradle not found, downloading ${URL} ..."
   curl -fL "${URL}" -o "${LOCAL_DIR}/${DIST_ZIP}"
   unzip -q -o "${LOCAL_DIR}/${DIST_ZIP}" -d "${LOCAL_DIR}"
 fi
 
-echo "[HardHorror] generating gradle wrapper via local Gradle ${GRADLE_VERSION} ..."
+echo "[PsychologicalHorror] generating gradle wrapper via local Gradle ${GRADLE_VERSION} ..."
 "${GRADLE_BIN}" wrapper

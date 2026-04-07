@@ -10,7 +10,7 @@ import java.time.Instant;
  * be wired to real game events later.</p>
  */
 public final class HardHorrorMod {
-    public static final String MOD_ID = "hardhorror";
+    public static final String MOD_ID = "psychologicalhorror";
 
     private final FearSystem fearSystem;
     private final AdaptiveDirector adaptiveDirector;

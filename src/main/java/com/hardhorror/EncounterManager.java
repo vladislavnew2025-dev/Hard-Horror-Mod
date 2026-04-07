@@ -23,7 +23,7 @@ public final class EncounterManager {
 
         if (random.nextDouble() <= spawnChance) {
             watcher = WatcherEntity.spawnForTest(random);
-            System.out.println("[HardHorror] Watcher spawned at distance " + watcher.distanceBlocks());
+            System.out.println("[PsychologicalHorror] Watcher spawned at distance " + watcher.distanceBlocks());
         }
     }
 
@@ -32,6 +32,6 @@ public final class EncounterManager {
     }
 
     public void triggerTestScreamer() {
-        System.out.println("[HardHorror] Screamer triggered (test).\n" + PixelScreamer.frame());
+        System.out.println("[PsychologicalHorror] Screamer triggered (test).\n" + PixelScreamer.frame());
     }
 }

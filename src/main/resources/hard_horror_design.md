@@ -1,4 +1,4 @@
-# Hard Horror Mod — design notes (MVP)
+# Psychological Horror Mod — design notes (MVP)
 
 ## Target stack
 - Minecraft 1.20.1

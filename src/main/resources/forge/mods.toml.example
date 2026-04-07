@@ -3,10 +3,10 @@ loaderVersion="[47,)"
 license="All Rights Reserved"
 
 [[mods]]
-modId="hardhorror"
+modId="psychologicalhorror"
 version="1.0.0"
-displayName="Hard Horror Mod"
-authors="HardHorror Team"
+displayName="Psychological Horror Mod"
+authors="PsychologicalHorror Team"
 description='''
 Psychological horror mod prototype.
 '''
