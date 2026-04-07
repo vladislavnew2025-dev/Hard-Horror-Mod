@@ -36,5 +36,14 @@ Use:
 - Writes logs to `logs/build_YYYYMMDD_HHMMSS.log`.
 - Prints explicit `RESULT: SUCCESS/FAILED` in terminal and log.
 
+
+## Forge integration bridge (new)
+- `src/main/java/com/hardhorror/forge/HardHorrorForgeEntrypoint.java`
+- `src/main/java/com/hardhorror/forge/ForgeEventBridge.java`
+- `src/main/resources/forge/mods.toml.example`
+- `src/main/resources/forge/README_FORGE_SETUP.md`
+
+These files are ready to copy into a Forge 1.20.1 MDK project for actual in-game testing.
+
 ## Next step
 Generate a Forge 1.20.1 MDK project structure and connect these classes to Forge events and rendering.

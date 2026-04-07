@@ -27,7 +27,7 @@ if ! command -v jar >/dev/null 2>&1; then
   exit 1
 fi
 
-SRC_COUNT=$(find src/main/java -type f -name '*.java' | wc -l | tr -d ' ')
+SRC_COUNT=$(find src/main/java/com/hardhorror -maxdepth 1 -type f -name '*.java' | wc -l | tr -d ' ')
 log "Source files: ${SRC_COUNT}"
 if [[ "$SRC_COUNT" -le 0 ]]; then
   log "ERROR: no Java sources were found."

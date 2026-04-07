@@ -35,7 +35,7 @@ if errorlevel 1 (
   echo WARNING: jar tool was not found in PATH, will use PowerShell zip fallback. >> "%LOG_FILE%"
 )
 
-for /r src\main\java %%f in (*.java) do set /a SRC_COUNT+=1
+for %%f in (src\main\java\com\hardhorror\*.java) do set /a SRC_COUNT+=1
 if %SRC_COUNT% LEQ 0 (
   echo ERROR: no Java sources were found. >> "%LOG_FILE%"
   echo [HardHorror] RESULT: FAILED >> "%LOG_FILE%"
