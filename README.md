@@ -52,6 +52,7 @@ cd forge
   - `/psychhorror screamer_test`
   - `/psychhorror watcher_test`
   - `/psychhorror anomaly_test`
+  - `/psychhorror plan_test`
 
 
 ## Текущее поведение в игре

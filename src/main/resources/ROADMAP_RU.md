@@ -32,3 +32,4 @@
 - `/psychhorror watcher_test`
 
 - `/psychhorror anomaly_test`
+- `/psychhorror plan_test`
