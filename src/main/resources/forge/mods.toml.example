@@ -1,0 +1,12 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="All Rights Reserved"
+
+[[mods]]
+modId="psychologicalhorror"
+version="1.0.0"
+displayName="Psychological Horror Mod"
+authors="PsychologicalHorror Team"
+description='''
+Psychological horror mod prototype.
+'''
